@@ -30,7 +30,17 @@ export async function POST(req: NextRequest) {
         }
 
         const isPasswordValid = await compare(body.password, user.password);
+        
         if (isPasswordValid) {
+         await prisma.user.update({
+            where: {
+                id: user.id
+            },
+            data: {
+                lastLogin: new Date()
+            }
+        });
+
             const key=process.env.JOSE_SECRET;
             const secret = new TextEncoder().encode(key);
             const token = await new jose.SignJWT({
