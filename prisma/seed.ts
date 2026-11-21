@@ -17,7 +17,7 @@ const userData: Prisma.UserCreateInput[] = [
     phone: "0771234567",
     firstName: "John",
     lastName: "Perera",
-    password: "$2a$12$sHIJ4siqxIfbFXlWSAzX/u1dQJ9TJ.8AZ9vuIWyJ9di6HzhG1tPwq",
+    password: "$2a$12$dNApuO6jY40cNQxh9c535u8s6mB3XpmMXAdxdYCwiy0MT0hOfKwsO",
     role: "Admin",
     status: "ACTIVE",
     privileges: [],
