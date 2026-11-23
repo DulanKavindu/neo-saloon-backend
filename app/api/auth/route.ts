@@ -44,11 +44,13 @@ export async function POST(req: NextRequest) {
             const key=process.env.JOSE_SECRET;
             const secret = new TextEncoder().encode(key);
             const token = await new jose.SignJWT({
+                 id: user.id,
                  email: user.email,
                  firstName: user.firstName,
                  lastName: user.lastName,
                  role: user.role,
                 privileges: user.privileges,
+                phone: user.phone,
             }).setProtectedHeader({ alg: "HS256" }).sign(secret);
           
             const response = NextResponse.json({

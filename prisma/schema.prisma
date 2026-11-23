@@ -24,4 +24,5 @@ model User {
   createdAt  DateTime  @default(now())
   lastLogin  DateTime?
   privileges String[]  @default([])  //["CREATE_PRODUCT", "UPDATE_PRODUCT", "DELETE_PRODUCT"]
+  profilePicture String? @default("/images/default-profile-picture.png")
 }
