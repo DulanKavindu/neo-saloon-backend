@@ -1,7 +1,8 @@
+import { MediaType, ProductStatus } from "@/app/generated/prisma/enums";
 import z from "zod";
 
-const ProductStatusEnum = z.enum(["ACTIVE", "INACTIVE", "DELETED"]);
-const mediaTypeEnum = z.enum(["VIDEO", "IMAGE"]);
+const ProductStatusEnum = z.enum(ProductStatus);
+const mediaTypeEnum = z.enum(MediaType);
 
 const ProductCreationRequestSchema = z.object({
     sku: z.string().max(50),

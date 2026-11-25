@@ -6,6 +6,8 @@ import { userSelfUpdateSchema } from "@/types/dto/userSelfeUpdate";
 import { userRegistrationSchema } from "@/types/dto/userRegistration"; 
 import z from "zod";
 import { userUpdateAdminSchema } from "@/types/dto/userUpdateAdmin";
+import pageCountSize from "@/utils/pageCount";
+
 
 export async function GET(req:NextRequest) {
 
@@ -16,15 +18,11 @@ export async function GET(req:NextRequest) {
         },{status:403})
     
     }
-    const pageNumberInString = req.nextUrl.searchParams.get("pageNumber") 
-    const pageSizeInString = req.nextUrl.searchParams.get("pageSize")
-
-    const pageNumber = pageNumberInString ? parseInt(pageNumberInString) : 1;
-    const pageSize = pageSizeInString ? parseInt(pageSizeInString) : 10;
+   const params =pageCountSize(req)
 
     const userCount= await prisma.user.count();
-    const pageCount = Math.ceil(userCount / pageSize);
-    if(pageCount<pageNumber){
+    const pageCount = Math.ceil(userCount / params.pageSize);
+    if(pageCount<params.pageNumber){
         return NextResponse.json({
             massage:"page number exceed total page",
             pageCount:pageCount
@@ -33,8 +31,8 @@ export async function GET(req:NextRequest) {
     
     const users = await prisma.user.findMany(
         {
-            skip:(pageNumber-1)*  pageSize,
-            take:pageSize,
+            skip:(params.pageNumber-1)* params.pageSize,
+            take:params.pageSize,
             select:{
                 id:true,
                 email:true,
@@ -53,8 +51,8 @@ export async function GET(req:NextRequest) {
         message:"all users",
         users:users,
         pagination:{
-            pageNumber:pageNumber,
-            pageSize:pageSize,
+            pageNumber:params.pageNumber,
+            pageSize:params.pageSize,
             pageCount:pageCount
         }
     },{status:200})
